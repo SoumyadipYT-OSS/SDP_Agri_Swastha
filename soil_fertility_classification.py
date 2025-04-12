@@ -10,11 +10,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from tensorflow.keras.utils import to_categorical
+import keras
+from keras._tf_keras.keras.models import Sequential, load_model
+from keras._tf_keras.keras.layers import Dense, Dropout, BatchNormalization
+from keras._tf_keras.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
+from keras._tf_keras.keras.utils import to_categorical
 import os
 
 # Set random seed for reproducibility

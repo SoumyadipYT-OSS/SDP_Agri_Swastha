@@ -5,16 +5,6 @@ __pycache__/
 # Add virtual environment directories
 .venv/
 
-
-# Ignore model and scaler files
-model/
-*.keras
-*.npy
-
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
-
-# Ignore other temporary files
-*.bak
-*.swp
