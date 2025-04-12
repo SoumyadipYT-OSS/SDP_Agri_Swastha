@@ -5,26 +5,16 @@ __pycache__/
 # Add virtual environment directories
 .venv/
 
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
 
 # Ignore model and scaler files
 model/
 *.keras
 *.npy
 
-# Ignore generated images
-*.png
-
-# Ignore environment files
-.env
-
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
 
 # Ignore other temporary files
-*.tmp
-*.log
 *.bak
 *.swp
