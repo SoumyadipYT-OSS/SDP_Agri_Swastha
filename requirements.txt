@@ -5,4 +5,4 @@ seaborn>=0.11.0
 scikit-learn>=0.24.0
 tensorflow>=2.8.0
 keras>=2.8.0
-joblib>=1.0.0
+joblib>=1.0.0imbalanced-learn>=0.13.0
