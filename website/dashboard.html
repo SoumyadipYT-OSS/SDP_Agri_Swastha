@@ -23,6 +23,29 @@
         <div class="dashboard-content">
             <h2>Soil Health Dashboard</h2>
 
+            <!-- Model Selection and Results Section -->
+            <div class="model-section">
+                <h3>Soil Analysis</h3>
+                <div class="model-controls">
+                    <div class="form-group">
+                        <label for="model-select">Select Model:</label>
+                        <select id="model-select" onchange="updateSelectedModel()">
+                            <option value="new_knn_classifier">KNN Classifier</option>
+                            <option value="new_rf_classifier">Random Forest Classifier</option>
+                            <option value="new_svm_classifier">SVM Classifier</option>
+                            <option value="soil_fertility_classifier">Soil Fertility Classifier</option>
+                            <option value="soil_fertility_lr_classifier">Logistic Regression Classifier</option>
+                        </select>
+                    </div>
+                    <button class="analyze-btn" onclick="analyzeSoil()">Analyze Soil</button>
+                </div>
+                <div class="results-card" id="analysis-results">
+                    <h4>Analysis Results</h4>
+                    <p id="result-text">Select a model and click Analyze to get results</p>
+                    <div id="result-details" class="result-details"></div>
+                </div>
+            </div>
+
             <!-- Current Readings Section -->
             <div class="metrics-grid">
                 <div class="metric-card">
@@ -81,6 +104,15 @@
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.16.3/dist/ort.min.js"></script>
+    <script>
+        // Initialize ONNX Runtime Web
+        if (typeof ort !== 'undefined') {
+            console.log('ONNX Runtime loaded successfully');
+        } else {
+            console.error('Failed to load ONNX Runtime');
+        }
+    </script>
     <script src="js/app.js"></script>
 </body>
 

@@ -122,12 +122,9 @@ def analyze_feature_distributions(data):
     
     return class_stats, feature_names, class_labels
 
-def generate_synthetic_data_gmm(data, class_stats, feature_names, class_labels, n_samples_per_class):
+def generate_synthetic_data_gmm(data, class_stats, feature_names, class_labels, n_samples_per_class, optimized_ranges=None):
     """
     Generate synthetic data using Gaussian Mixture Models.
-    
-    This method creates a separate GMM for each class and generates synthetic 
-    samples that preserve the feature distributions and relationships.
     
     Args:
         data (pd.DataFrame): Original dataset
@@ -135,9 +132,7 @@ def generate_synthetic_data_gmm(data, class_stats, feature_names, class_labels, 
         feature_names (list): List of feature names
         class_labels (list): List of class labels
         n_samples_per_class (dict): Number of samples to generate for each class
-        
-    Returns:
-        pd.DataFrame: Synthetic dataset
+        optimized_ranges (dict): Optional optimal ranges for specific classes
     """
     print("\n" + "="*50)
     print("Generating synthetic data using Gaussian Mixture Models...")
@@ -152,27 +147,48 @@ def generate_synthetic_data_gmm(data, class_stats, feature_names, class_labels, 
         X_cls = class_stats[cls]['data']
         n_features = X_cls.shape[1]
         
-        # Determine number of components based on class size
-        n_components = min(max(1, len(X_cls) // 10), 10)
+        if optimized_ranges and cls in optimized_ranges:
+            # Generate samples using optimized ranges
+            n_samples = n_samples_per_class[cls]
+            synthetic_samples = np.zeros((n_samples, n_features))
+            
+            for i, feature in enumerate(feature_names):
+                if feature in optimized_ranges[cls]:
+                    min_val, max_val = optimized_ranges[cls][feature]
+                    # Generate samples with slight variation around optimal range
+                    mean = (min_val + max_val) / 2
+                    std = (max_val - min_val) / 6  # Small standard deviation
+                    synthetic_samples[:, i] = np.random.normal(mean, std, n_samples)
+                    # Clip to ensure values stay within range
+                    synthetic_samples[:, i] = np.clip(
+                        synthetic_samples[:, i], min_val, max_val
+                    )
+                else:
+                    # Use GMM for other features
+                    n_components = min(max(1, len(X_cls) // 10), 5)
+                    gmm = GaussianMixture(
+                        n_components=n_components,
+                        covariance_type='full',
+                        random_state=42
+                    )
+                    gmm.fit(X_cls[:, i:i+1])
+                    synthetic_samples[:, i:i+1], _ = gmm.sample(n_samples)
+            
+            df_synthetic = pd.DataFrame(synthetic_samples, columns=feature_names)
+            
+        else:
+            # Use standard GMM for other classes
+            n_components = min(max(1, len(X_cls) // 10), 10)
+            gmm = GaussianMixture(
+                n_components=n_components,
+                covariance_type='full',
+                random_state=42
+            )
+            gmm.fit(X_cls)
+            X_synthetic, _ = gmm.sample(n_samples_per_class[cls])
+            df_synthetic = pd.DataFrame(X_synthetic, columns=feature_names)
         
-        # Create and train GMM model
-        gmm = GaussianMixture(
-            n_components=n_components,
-            covariance_type='full',
-            random_state=42
-        )
-        gmm.fit(X_cls)
-        
-        # Generate synthetic samples
-        X_synthetic, _ = gmm.sample(n_samples_per_class[cls])
-        
-        # Create a DataFrame with the synthetic samples
-        df_synthetic = pd.DataFrame(X_synthetic, columns=feature_names)
-        
-        # Add class label
-        df_synthetic['Output'] = cls
-        
-        # Apply post-processing to keep values in valid range
+        # Post-process values
         for i, feature in enumerate(feature_names):
             min_val = max(0, class_stats[cls]['min'][i])
             max_val = class_stats[cls]['max'][i]
@@ -184,8 +200,10 @@ def generate_synthetic_data_gmm(data, class_stats, feature_names, class_labels, 
             if feature in ['N', 'K']:
                 df_synthetic[feature] = df_synthetic[feature].round().astype(int)
             else:
-                df_synthetic[feature] = df_synthetic[feature].round(1)
+                df_synthetic[feature] = df_synthetic[feature].round(2)
         
+        # Add class label
+        df_synthetic['Output'] = cls
         synthetic_data_list.append(df_synthetic)
     
     # Combine data from all classes
@@ -357,25 +375,31 @@ def main():
     original_data = load_data(input_data_path)
     class_stats, feature_names, class_labels = analyze_feature_distributions(original_data)
     
-    # Determine number of samples to generate for each class
-    # Generate more samples than the original dataset
-    total_samples = 1000
-    class_distribution = {cls: count for cls, count in original_data['Output'].value_counts().items()}
-    total_original = sum(class_distribution.values())
+    # Generate more samples than original with balanced distribution
+    total_samples = 2000  # Increased total samples
     
-    n_samples_per_class = {}
-    for cls, count in class_distribution.items():
-        # Maintain similar class proportions but ensure minimum samples for small classes
-        proportion = count / total_original
-        n_samples_per_class[cls] = max(50, int(total_samples * proportion))
+    # Equal distribution across classes
+    n_samples_per_class = {cls: total_samples // len(class_labels) for cls in class_labels}
     
-    # Generate synthetic data
+    # For highly fertile class (2), generate samples with optimized ranges
+    optimized_ranges = {
+        2: {  # High fertility class
+            'N': (350, 380),
+            'P': (11, 13),
+            'K': (800, 850),
+            'EC': (0.85, 0.95),
+            'Fe': (8, 10)
+        }
+    }
+    
+    # Generate synthetic data with optimal ranges for high fertility
     synthetic_data = generate_synthetic_data_gmm(
         original_data, 
         class_stats, 
         feature_names, 
         class_labels, 
-        n_samples_per_class
+        n_samples_per_class,
+        optimized_ranges=optimized_ranges  # Pass optimized ranges
     )
     
     # Validate synthetic data quality

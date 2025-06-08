@@ -1,9 +1,11 @@
 import os
 import joblib
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
-from sklearn.pipeline import Pipeline
 
 def convert_model_to_onnx(model_path, model_name, output_path):
     """Convert a scikit-learn model to ONNX format.
@@ -49,6 +51,74 @@ def convert_model_to_onnx(model_path, model_name, output_path):
     except Exception as e:
         print(f"Error during conversion: {str(e)}")
         return False
+
+def convert_models_to_onnx():
+    print("Loading datasets...")
+    # Load both original and synthetic data
+    df_original = pd.read_csv('../Datasets/dataset_1.csv')
+    df_synthetic = pd.read_csv('../Datasets/synthetic_dataset.csv')
+    
+    # Combine datasets
+    df_original['is_synthetic'] = 0
+    df_synthetic['is_synthetic'] = 1
+    df = pd.concat([df_original, df_synthetic], ignore_index=True)
+    
+    print("\nClass distribution in combined dataset:")
+    class_dist = df['Output'].value_counts(normalize=True)
+    for cls in sorted(class_dist.index):
+        print(f"Class {cls}: {len(df[df['Output'] == cls])} samples ({class_dist[cls]*100:.2f}%)")
+    
+    # Prepare features and target
+    X = df.drop(['Output', 'is_synthetic'], axis=1)
+    y = df['Output']
+    
+    # Split data ensuring both original and synthetic samples are represented
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    # Define initial shape for ONNX conversion
+    initial_type = [('float_input', FloatTensorType([None, 5]))]
+    
+    # Convert each model
+    model_files = [
+        'new_knn_classifier.joblib',
+        'new_svm_classifier.joblib',
+        'new_rf_classifier.joblib'
+    ]
+    
+    for model_file in model_files:
+        try:
+            print(f"\nConverting {model_file} to ONNX...")
+            
+            # Load the model
+            model = joblib.load(model_file)
+            
+            # Convert to ONNX
+            onnx_model = convert_sklearn(
+                model, 
+                initial_types=initial_type,
+                target_opset=12,
+                options={
+                    'zipmap': False,  # Disable zipmap to get raw probabilities
+                    'return_probabilities': True
+                }
+            )
+            
+            # Save ONNX model
+            onnx_file = f'trained_models/{model_file.replace(".joblib", ".onnx")}'
+            with open(onnx_file, "wb") as f:
+                f.write(onnx_model.SerializeToString())
+            print(f"Saved ONNX model to {onnx_file}")
+            
+            # Also copy to website models directory
+            website_model_path = f'../website/models/{model_file.replace(".joblib", ".onnx")}'
+            with open(website_model_path, "wb") as f:
+                f.write(onnx_model.SerializeToString())
+            print(f"Copied ONNX model to {website_model_path}")
+            
+        except Exception as e:
+            print(f"Error converting {model_file}: {str(e)}")
 
 def main():
     # Base paths
@@ -101,4 +171,4 @@ def main():
             print(f"\nWarning: Model file not found at {model_info['input_path']}")
 
 if __name__ == "__main__":
-    main()
+    convert_models_to_onnx()
