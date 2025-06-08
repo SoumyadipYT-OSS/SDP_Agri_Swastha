@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AgriSwastha - Dashboard</title>
+    <meta name="description" content="AgriSwastha Dashboard - Soil Health Monitoring System">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard">
+        <nav class="dashboard-nav">
+            <div class="brand">
+                <h1>AgriSwastha</h1>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </nav>
+
+        <div class="dashboard-content">
+            <h2>Soil Health Dashboard</h2>
+
+            <!-- Current Readings Section -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>Nitrogen (N)</h3>
+                    <p class="metric-value" id="n">--</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Phosphorus (P)</h3>
+                    <p class="metric-value" id="p">--</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Potassium (K)</h3>
+                    <p class="metric-value" id="k">--</p>
+                </div>
+                <div class="metric-card">
+                    <h3>EC</h3>
+                    <p class="metric-value" id="ec">--</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Iron (Fe)</h3>
+                    <p class="metric-value" id="fe">--</p>
+                </div>
+            </div>
+
+            <!-- Add New Reading Section -->
+            <div class="add-reading-section">
+                <h3>Add New Reading</h3>
+                <div class="input-form">
+                    <div class="form-group">
+                        <label for="input-n">Nitrogen (mg/kg)</label>
+                        <input type="number" id="input-n" placeholder="Enter N value">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-p">Phosphorus (mg/kg)</label>
+                        <input type="number" id="input-p" placeholder="Enter P value">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-k">Potassium (mg/kg)</label>
+                        <input type="number" id="input-k" placeholder="Enter K value">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-ec">EC (dS/m)</label>
+                        <input type="number" step="0.1" id="input-ec" placeholder="Enter EC value">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-fe">Iron (mg/kg)</label>
+                        <input type="number" id="input-fe" placeholder="Enter Fe value">
+                    </div>
+                    <button class="submit-btn" onclick="submitReading()">Submit Reading</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Firebase imports -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
