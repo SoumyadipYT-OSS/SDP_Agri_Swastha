@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Agri.MainPage"
+             Title="Soil Fertility Analysis"
+             BackgroundColor="#F8F9FA">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header Section -->
+            <Border BackgroundColor="White" 
+                    Padding="25" 
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="🌱 Soil Fertility Predictor" 
+                           FontSize="26" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="Center" 
+                           TextColor="#2E7D32"/>
+                    <Label Text="AI-Powered Soil Health Assessment" 
+                           FontSize="14" 
+                           HorizontalOptions="Center" 
+                           TextColor="#666666"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Input Parameters Section -->
+            <Border BackgroundColor="White" 
+                    Padding="25" 
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="📊 Soil Parameters" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"/>
+
+                    <!-- Nitrogen Input -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Nitrogen (N)" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+                        <Border BackgroundColor="#F5F5F5" 
+                                StrokeThickness="2"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryN" 
+                                   Placeholder="Enter 50-500 ppm" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#333333"
+                                   PlaceholderColor="#999999"
+                                   FontSize="16"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Label Text="Range: 50-500 ppm" 
+                               FontSize="12" 
+                               TextColor="#666666"
+                               Margin="5,0,0,0"/>
+                    </VerticalStackLayout>
+
+                    <!-- Phosphorus Input -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Phosphorus (P)" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+                        <Border BackgroundColor="#F5F5F5" 
+                                StrokeThickness="2"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryP" 
+                                   Placeholder="Enter 1-25 ppm" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#333333"
+                                   PlaceholderColor="#999999"
+                                   FontSize="16"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Label Text="Range: 1-25 ppm" 
+                               FontSize="12" 
+                               TextColor="#666666"
+                               Margin="5,0,0,0"/>
+                    </VerticalStackLayout>
+
+                    <!-- Potassium Input -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Potassium (K)" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+                        <Border BackgroundColor="#F5F5F5" 
+                                StrokeThickness="2"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryK" 
+                                   Placeholder="Enter 200-800 ppm" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#333333"
+                                   PlaceholderColor="#999999"
+                                   FontSize="16"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Label Text="Range: 200-800 ppm" 
+                               FontSize="12" 
+                               TextColor="#666666"
+                               Margin="5,0,0,0"/>
+                    </VerticalStackLayout>
+
+                    <!-- Electrical Conductivity Input -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Electrical Conductivity (EC)" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+                        <Border BackgroundColor="#F5F5F5" 
+                                StrokeThickness="2"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryEC" 
+                                   Placeholder="Enter 0.1-1.0 dS/m" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#333333"
+                                   PlaceholderColor="#999999"
+                                   FontSize="16"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Label Text="Range: 0.1-1.0 dS/m" 
+                               FontSize="12" 
+                               TextColor="#666666"
+                               Margin="5,0,0,0"/>
+                    </VerticalStackLayout>
+
+                    <!-- Iron Input -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Iron (Fe)" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+                        <Border BackgroundColor="#F5F5F5" 
+                                StrokeThickness="2"
+                                Stroke="#E0E0E0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry x:Name="EntryFe" 
+                                   Placeholder="Enter 0.5-10 ppm" 
+                                   Keyboard="Numeric"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#333333"
+                                   PlaceholderColor="#999999"
+                                   FontSize="16"
+                                   Margin="10,0"/>
+                        </Border>
+                        <Label Text="Range: 0.5-10 ppm" 
+                               FontSize="12" 
+                               TextColor="#666666"
+                               Margin="5,0,0,0"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                <Button x:Name="ResetButton" 
+                        Text="🔄 Reset" 
+                        Clicked="OnResetClicked"
+                        BackgroundColor="#757575" 
+                        TextColor="White" 
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        WidthRequest="120"
+                        HeightRequest="50"/>
+
+                <Button x:Name="PredictButton" 
+                        Text="🔬 Analyze Soil" 
+                        Clicked="OnPredictClicked"
+                        BackgroundColor="#2E7D32" 
+                        TextColor="White" 
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        WidthRequest="150"
+                        HeightRequest="50"/>
+            </HorizontalStackLayout>
+
+            <!-- Loading Indicator -->
+            <ActivityIndicator x:Name="LoadingIndicator" 
+                             IsVisible="False" 
+                             IsRunning="False" 
+                             Color="#2E7D32"
+                             HeightRequest="40"/>
+
+            <!-- Results Section -->
+            <Border x:Name="ResultsContainer"
+                    BackgroundColor="White" 
+                    Padding="25" 
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    IsVisible="False">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="📈 Analysis Results" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"/>
+
+                    <!-- Main Result -->
+                    <Border x:Name="MainResultBorder"
+                            BackgroundColor="#4CAF50" 
+                            Padding="20" 
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 15">
+                        <VerticalStackLayout Spacing="8">
+                            <Label x:Name="PredictionLabel" 
+                                   Text="HIGH FERTILITY" 
+                                   FontSize="22" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalOptions="Center"/>
+                            <Label x:Name="ConfidenceLabel" 
+                                   Text="Confidence: 87.5%" 
+                                   FontSize="16" 
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Detailed Results -->
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="📊 Probability Breakdown:" 
+                               FontAttributes="Bold" 
+                               FontSize="16"
+                               TextColor="#333333"/>
+                        <Label x:Name="ProbabilityLabel" 
+                               Text="Low Fertility: 5.2%&#x0a;Medium Fertility: 7.3%&#x0a;High Fertility: 87.5%" 
+                               FontSize="14"
+                               TextColor="#555555"
+                               LineHeight="1.4"/>
+                    </VerticalStackLayout>
+
+                    <!-- Feature Insights -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🔬 Key Factors:" 
+                               FontAttributes="Bold" 
+                               FontSize="16"
+                               TextColor="#333333"/>
+                        <Label x:Name="InsightsLabel" 
+                               Text="✅ Nitrogen levels are excellent&#x0a;✅ Phosphorus levels are optimal" 
+                               FontSize="14"
+                               TextColor="#555555"
+                               LineHeight="1.4"/>
+                    </VerticalStackLayout>
+
+                    <!-- Recommendations -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="💡 Recommendations:" 
+                               FontAttributes="Bold" 
+                               FontSize="16"
+                               TextColor="#333333"/>
+                        <Label x:Name="RecommendationLabel" 
+                               Text="Excellent soil conditions! Optimal for crop growth." 
+                               FontSize="14"
+                               TextColor="#555555"
+                               LineHeight="1.4"/>
+                    </VerticalStackLayout>
+
+                    <!-- Timestamp -->
+                    <Label x:Name="TimestampLabel" 
+                           Text="📅 Analysis: 2024-12-09 14:30:25" 
+                           FontSize="12" 
+                           TextColor="#999999"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Info Section -->
+            <Border BackgroundColor="#E3F2FD" 
+                    Padding="20" 
+                    StrokeThickness="1"
+                    Stroke="#2196F3"
+                    StrokeShape="RoundRectangle 15">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="ℹ️ About This Tool" 
+                           FontSize="16" 
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"/>
+                    <Label Text="This AI model uses Random Forest algorithm trained on agricultural data to predict soil fertility. Enter your soil test values above to get instant analysis and recommendations."
+                           FontSize="13"
+                           TextColor="#1976D2"
+                           LineHeight="1.3"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

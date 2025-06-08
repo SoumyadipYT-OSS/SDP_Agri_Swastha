@@ -8,3 +8,23 @@ __pycache__/
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
+
+# Visual Studio 2022
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+# .NET MAUI
+**/Platforms/**/bin/
+**/Platforms/**/obj/
+*.apk
+*.ipa
+*.appx
+*.msix
+
+# NuGet
+packages/
+*.nupkg
+
