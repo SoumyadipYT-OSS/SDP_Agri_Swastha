@@ -305,7 +305,7 @@ function updateSelectedModel() {
 async function loadModel(modelName) {
     try {
         console.log('Loading model:', modelName);
-        const modelPath = `models/${modelName}.onnx`;
+        const modelPath = `../Models/trained_models/${modelName}.onnx`;
         console.log('Model path:', modelPath);
         
         const response = await fetch(modelPath);
@@ -342,7 +342,7 @@ async function checkModelAvailability() {
 
     for (const option of modelSelect.options) {
         try {
-            const response = await fetch(`models/${option.value}.onnx`, { method: 'HEAD' });
+            const response = await fetch(`../Models/trained_models/${option.value}.onnx`, { method: 'HEAD' });
             if (!response.ok) {
                 option.textContent += ' (Not Available)';
                 option.disabled = true;
